@@ -3,62 +3,58 @@ const User = require("../models/User.js")
 class UserController {
 
     static async listAll(req, res) {
-        await User.find((err, users) => {
-            if (err) {
-                res.status(500).json({ message: err.message })
-            }
-
+        try {
+            const users = await User.find()
             res.json(users)
-        })
+        } catch (err) {
+            res.status(500).json({ message: err.message })
+        }
     }
 
     static async create(req, res) {
-        const user = new User(req.body)
-
-        await user.save((err) => {
-            if (err) {
-                res.status(500).json({ message: err.message })
-            }
-
+        try {
+            const newUser = new User(req.body)
+            const user = await newUser.save()
             res.status(201).json(user)
-        })
+        } catch (err) {
+            res.status(500).json({ message: err.message })
+        }
     }
 
     static async getById(req, res) {
-        const { id } = req.params
-
-        await User.findById(id, (err, user) => {
-            if (err) {
-                res.status(500).json({ message: err.message })
-            }
-
+        try {
+            const { id } = req.params
+            const user = await User.findById(id)
             res.json(user)
-        })
+        } catch (err) {
+            res.status(500).json({ message: err.message })
+        }
     }
 
     static async update(req, res) {
-        const { id } = req.params
-        const data = req.body
-
-        await User.findByIdAndUpdate(id, { $set: data }, (err, user) => {
-            if (err) {
-                res.status(500).json({ message: err.message })
-            }
-
+        try {
+            const { id } = req.params
+            const data = req.body
+            const user = await User.findByIdAndUpdate(id, { $set: data })
             res.json(user)
-        })
+        } catch (err) {
+            res.status(500).json({ message: err.message })
+        }
     }
 
-    static async delete(req, res) {
-        const { id } = req.params
+    static delete(req, res) {
+        try {
+            const { id } = req.params
+            User.findByIdAndRemove(id, (err) => {
+                if (err) {
+                    res.status(500).json({ message: err.message })
+                }
 
-        await User.findByIdAndRemove(id, (err) => {
-            if (err) {
-                res.status(500).json({ message: err.message })
-            }
-
-            res.status(204).send()
-        })
+                res.status(204).send()
+            })
+        } catch (err) {
+            res.status(500).json({ message: err.message })
+        }
     }
 }
 

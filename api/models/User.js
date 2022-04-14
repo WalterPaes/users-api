@@ -7,7 +7,7 @@ const usersSchema = new mongoose.Schema({
     dob: { type: Date, required: true },
     address: { type: String, required: true },
     description: { type: String, required: true },
-    createdAt: { type: Date, required: true }
+    createdAt: { type: Date, required: true, default: Date.now }
 });
 
 
