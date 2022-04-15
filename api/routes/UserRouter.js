@@ -9,5 +9,6 @@ userRouter
     .get("/users/:id", UserController.getById)
     .put("/users/:id", UserController.update)
     .delete("/users/:id", UserController.delete)
+    .post("/login", UserController.login)
 
 module.exports = userRouter; 

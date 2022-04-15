@@ -1,11 +1,12 @@
 const bcrypt = require("bcrypt");
 const salt = 12;
-const hashKey = process.env.KEY || 'key';
 
 const passwordHash = {
     hashPassword: (password) => {
-        const hash = bcrypt.hashSync(password, salt);
-        return hash;
+        return bcrypt.hashSync(password, salt);
+    },
+    checkPassword: (password, hash) => {
+        return bcrypt.compareSync(password, hash);
     }
 }
 

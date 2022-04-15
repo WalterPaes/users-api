@@ -1,3 +1,4 @@
+const passwordHash = require("../../libs/passwordHash.js")
 const User = require("../models/User.js")
 
 class UserController {
@@ -52,6 +53,21 @@ class UserController {
 
                 res.status(204).send()
             })
+        } catch (err) {
+            res.status(500).json({ message: err.message })
+        }
+    }
+
+    static async login(req, res) {
+        try {
+            const { email, password } = req.body;
+            const user = await User.findOne({ email });
+
+            if (!user || !passwordHash.checkPassword(password, user.password)) {
+                return res.status(400).json({ message: 'Incorrect email or password' })
+            }
+
+            res.json({ ok: "ok" })
         } catch (err) {
             res.status(500).json({ message: err.message })
         }
