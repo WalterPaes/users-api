@@ -1,5 +1,6 @@
-const passwordHash = require("../../libs/passwordHash.js")
 const User = require("../models/User.js")
+const passwordHash = require("../../libs/passwordHash.js")
+const jwtAuth = require("../../libs/jwtAuth.js")
 
 class UserController {
 
@@ -67,7 +68,9 @@ class UserController {
                 return res.status(401).json({ message: 'Incorrect email or password' })
             }
 
-            res.json({ ok: "ok" })
+            const token = jwtAuth.generateToken({ email })
+
+            res.json({ token })
         } catch (err) {
             res.status(500).json({ message: err.message })
         }
