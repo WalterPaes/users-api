@@ -64,7 +64,7 @@ class UserController {
             const user = await User.findOne({ email });
 
             if (!user || !passwordHash.checkPassword(password, user.password)) {
-                return res.status(400).json({ message: 'Incorrect email or password' })
+                return res.status(401).json({ message: 'Incorrect email or password' })
             }
 
             res.json({ ok: "ok" })
