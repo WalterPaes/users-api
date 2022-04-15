@@ -1,6 +1,7 @@
+require('dotenv').config()
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb+srv://alura:ROTsTHz2hPlKXDGN@alura.l5kuh.mongodb.net/users-api")
+mongoose.connect(process.env.MONGODB_URI)
 
 const db = mongoose.connection;
 
